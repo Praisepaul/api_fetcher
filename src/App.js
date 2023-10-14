@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './App.css';
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -8,7 +9,7 @@ function App() {
     fetch('https://dummyjson.com/users')
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw Error('Network response was not ok');
         }
         return response.json();
       })
@@ -27,18 +28,33 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div className="table-container">
       <h1>User List</h1>
       {isLoading ? (
         <p>Loading...</p>
       ) : users.length > 0 ? (
-        <ul>
-          {users.map((user) => (
-            <li key={user.id}>
-              {user.firstName} {user.lastName}
-            </li>
-          ))}
-        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Age</th>
+              <th>Gender</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.id}>
+                <td>{user.id}</td>
+                <td>{user.firstName}</td>
+                <td>{user.lastName}</td>
+                <td>{user.age}</td>
+                <td>{user.gender}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       ) : (
         <p>No user data found</p>
       )}
